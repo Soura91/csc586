@@ -22,7 +22,7 @@ slapd   slapd/password_mismatch note
 # Do you want the database to be removed when slapd is purged?
 slapd   slapd/purge_database    boolean false
 slapd   slapd/ppolicy_schema_needs_update       select  abort installation
-" | sudo debconf-set-selections
+" | debconf-set-selections
 
 sudo apt-get update
 sudo apt-get install -y slapd ldap-utils
