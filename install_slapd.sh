@@ -29,7 +29,7 @@ slapd slapd/allow_ldap_v2 boolean false
 sudo apt-get install -y slapd ldap-utils
 #sudo dpkg-reconfigure slapd
 sudo ufw allow ldap
-ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -W abcd123 -f basedn.ldif
+ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f basedn.ldif
 
 #echo   -n  PASS=$(slappasswd -s rammy) | awk '{print PASS}'
 PASS=$(slappasswd -s rammy)
@@ -50,3 +50,5 @@ gecos: Golden Ram
 loginShell: /bin/dash
 homeDirectory: /home/student
 EOF
+
+$ ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f users.ldif
