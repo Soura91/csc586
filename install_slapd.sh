@@ -1,6 +1,6 @@
 #!/bin/bash 
 #Install openLDAP on server
-export DEBIAN_FRONTEND='non-interactive'
+export DEBIAN_FRONTEND=non-interactive
 
 echo -e ”
 slapd   slapd/internal/generated_adminpw        password
