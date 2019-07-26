@@ -71,4 +71,4 @@ ldap-auth-config        ldap-auth-config/ldapns/ldap-server     string  ldap://1
 ldap-auth-config        ldap-auth-config/move-to-debconf        boolean true
 " | sudo debconf-set-selections
 
-sed 's/compat systemd/compat systemd ldap/ /etc/nsswitch.conf
+sed 's/compat systemd/compat systemd ldap/' /etc/nsswitch.conf
