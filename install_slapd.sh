@@ -19,7 +19,7 @@ echo -e ”slapd   slapd/upgrade_slapcat_failure   error" | debconf-set-selectio
 echo -e ”slapd   shared/organization     string  clemson.cloudlab.us" | debconf-set-selections
 echo -e ”slapd   slapd/no_configuration  boolean false" | debconf-set-selections
 echo -e ”slapd   slapd/dump_database_destdir     string  /var/backups/slapd-VERSION" | debconf-set-selections
-echo -e ”slapd   slapd/move_old_database boolean true" | debconf-set-selections
+echo -e ”slapd   slapd/move_old_database boolean true" | debconf-set-selections" | debconf-set-selections
 echo -e ”slapd   slapd/ppolicy_schema_needs_update       select  abort installation" | debconf-set-selections
 
 sudo apt-get update
