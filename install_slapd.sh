@@ -1,4 +1,5 @@
 #!/bin/bash 
+sudo apt update
 #Install openLDAP on server
 export DEBIAN_FRONTEND=non-interactive
 
@@ -24,7 +25,7 @@ echo -e "slapd   slapd/ppolicy_schema_needs_update       select  abort installat
 echo -e "slapd   slapd/unsafe_selfwrite_acl      note" | sudo debconf-set-selections
 echo -e "slapd   shared/organization     string  clemson.cloudlab.us" | sudo debconf-set-selections
 
-sudo apt-get update
+
 sudo apt-get install -y slapd ldap-utils
-sudo dpkg-reconfigure slapd
+#sudo dpkg-reconfigure slapd
 sudo ufw allow ldap 
