@@ -1,4 +1,5 @@
 #!/bin/bash 
+#Install openLDAP on server
 export DEBIAN_FRONTEND='non-interactive'
 
 echo -e” slapd   slapd/internal/generated_adminpw        password test
@@ -20,22 +21,9 @@ slapd   slapd/domain    string  clemson.cloudlab.us
 slapd   slapd/dump_database     select  when needed
 slapd   shared/organization     string  clemson.cloudlab.us
 slapd   slapd/password_mismatch note
+" | sudo debconf-set-selections
 
-
-
-# Do you want the database to be removed when slapd is purged?
-
-
-
-
-
-
-
-
-
-
-# Grab slapd and ldap-utils (pre-seeded)
-apt-get install -y slapd ldap-utils phpldapadmin
-
-# Must reconfigure slapd for it to work properly 
-sudo dpkg-reconfigure slapd 
+sudo apt-get update
+sudo apt-get install -y slapd ldap-utils
+sudo dpkg-reconfigure slapd
+sudo ufw allow ldap 
