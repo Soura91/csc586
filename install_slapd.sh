@@ -6,6 +6,8 @@ echo -e ”slapd   slapd/internal/adminpw  password abcd123" | debconf-set-selec
 echo -e ”slapd   slapd/internal/generated_adminpw        password abcd123" | debconf-set-selections
 echo -e ”slapd   slapd/password2 password abcd123" | debconf-set-selections
 echo -e ”slapd   slapd/password1 password abcd123" | debconf-set-selections
+echo -e "slapd   slapd/root_password password password abcd123" | debconf-set-selections
+echo -e "slapd   slapd/root_password_again password password abcd123" | debconf-set-selections
 # Do you want the database to be removed when slapd is purged?
 echo -e ”slapd   slapd/purge_database    boolean false" | debconf-set-selections
 echo -e ”slapd   slapd/password_mismatch note" | debconf-set-selections
