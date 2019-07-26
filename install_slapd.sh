@@ -10,7 +10,7 @@ slapd slapd/no_configuration boolean false
 slapd slapd/invalid_config boolean true
 slapd slapd/domain string wisc.cloudlab.us
 slapd slapd/organization string clemson.cloudlab.us
-slapd slapd/internal/adminpw password pkhadse
+slapd slapd/internal/adminpw password abcd123
 slapd slapd/backend select MDB
 slapd slapd/purge_database boolean true
 slapd slapd/dump_databse_destdir string /var/backups/slapd-VERSION
