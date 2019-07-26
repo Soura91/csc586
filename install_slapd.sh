@@ -51,4 +51,4 @@ loginShell: /bin/dash
 homeDirectory: /home/student
 EOF
 
-$ ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f users.ldif
+ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f users.ldif
