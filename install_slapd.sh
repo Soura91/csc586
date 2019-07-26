@@ -73,6 +73,6 @@ ldap-auth-config        ldap-auth-config/move-to-debconf        boolean true
 
 sed 's/compat systemd/compat systemd ldap/' /etc/nsswitch.conf
 sed 's/use_authtok/ /' /etc/pam.d/common-password
-sed '$ a session optional pam_mkhomedir.so skel=/etc/skel umask=077' /etc/pam.d/common-session
-getent passwd student
-sudo su - student
+sed '$ a session optional   pam_mkhomedir.so skel=/etc/skel umask=077' /etc/pam.d/common-session
+sudo getent passwd student
+#sudo su - student
