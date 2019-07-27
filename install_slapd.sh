@@ -54,6 +54,8 @@ EOF
 
 ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f users.ldif
 
+sudo apt-get update
+
 echo -e " 
 ldap-auth-config        ldap-auth-config/rootbindpw     password abcd123
 ldap-auth-config        ldap-auth-config/bindpw password abcd123
@@ -70,6 +72,8 @@ ldap-auth-config        ldap-auth-config/rootbinddn     string  cn=admin,dc=clem
 ldap-auth-config        ldap-auth-config/ldapns/ldap-server     string  ldap://192.168.1.1
 ldap-auth-config        ldap-auth-config/move-to-debconf        boolean true
 " | sudo debconf-set-selections
+
+sudo apt install -y libnss-ldap libpam-ldap ldap-utils
 
 sudo sed -i 's/compat systemd/compat systemd ldap/' /etc/nsswitch.conf
 sudo sed -i 's/use_authtok/ /' /etc/pam.d/common-password
