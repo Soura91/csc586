@@ -1,6 +1,9 @@
 #!/bin/bash
 
 sudo apt-get update
+sudo apt-get install slapd
+sudo apt install debconf-utils
+sudo debconf-get-selections | grep slapd
 
 export DEBIAN_FRONTEND=noninteractive
 
