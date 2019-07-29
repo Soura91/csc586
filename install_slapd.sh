@@ -8,6 +8,8 @@ sudo debconf-get-selections | grep slapd
 export DEBIAN_FRONTEND=noninteractive
 
 echo -e " 
+slapd slapd/root_password password abcd123
+slapd slapd/root_password_again password abcd123
 slapd slapd/internal/generated_adminpw password abcd123
 slapd slapd/no_configuration boolean false
 slapd slapd/invalid_config boolean true
@@ -64,8 +66,6 @@ ldap-auth-config        ldap-auth-config/binddn string  cn=proxyuser,dc=example,
 ldap-auth-config        ldap-auth-config/override       boolean true
 ldap-auth-config        ldap-auth-config/pam_password   select  md5
 ldap-auth-config        ldap-auth-config/dblogin        boolean false
-slapd   slapd/allow_ldap_v2     boolean false
-libpam-runtime  libpam-runtime/profiles multiselect     unix, ldap, systemd, capability
 ldap-auth-config        ldap-auth-config/ldapns/base-dn string  dc=clemson,dc=cloudlab,dc=us
 ldap-auth-config        ldap-auth-config/dbrootlogin    boolean true
 ldap-auth-config        ldap-auth-config/ldapns/ldap_version    select  3
