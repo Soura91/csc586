@@ -1,5 +1,6 @@
 #! /bin/bash
 
+sudo apt-get update
 # Install openLDAP server quietly
 export DEBIAN_FRONTEND=noninteractive
 
@@ -25,19 +26,19 @@ slapd slapd/dump_database select when needed
 slapd slapd/password_mismatch note
 " | sudo debconf-set-selections
 
-sudo apt-get update
+#sudo apt-get update
 
 # Grab slapd and ldap-utils (pre-seeded)
 sudo apt-get install -y slapd ldap-utils
 
 # Must reconfigure slapd for it to work properly 
-sudo dpkg-reconfigure slapd
+#sudo dpkg-reconfigure slapd
 
 # Enable firewall rule 
 sudo ufw allow ldap 
 
 # Populate LDAP
-ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w password -f basedn.ldif
+ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f basedn.ldif
 
 # Generate password hash
 PASS=$(slappasswd -s rammy)
@@ -60,7 +61,7 @@ homeDirectory: /home/student
 EOF
 
 # Populate LDAP
-ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w password -f users.ldif 
+ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f users.ldif 
 
 # Test LDAP
 ldapsearch -x -LLL -b dc=clemson,dc=cloudlab,dc=us 'uid=student' cn gidNumber
