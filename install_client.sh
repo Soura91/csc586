@@ -1,42 +1,41 @@
-#! /bin/bash
+#!/bin/bash
 
+ADMIN_PASSWORD="abcd123"
+#updates the system repo database
 sudo apt update
+
+#change the fronend to noninteractive, avoiding prompts for automation
 export DEBIAN_FRONTEND=noninteractive
-
-echo -e " 
-ldap-auth-config        ldap-auth-config/rootbindpw     password abcd123
-ldap-auth-config        ldap-auth-config/bindpw password abcd123
-ldap-auth-config        ldap-auth-config/override       boolean true
-ldap-auth-config        ldap-auth-config/pam_password   select  md5
-ldap-auth-config        ldap-auth-config/dblogin        boolean false
-ldap-auth-config        ldap-auth-config/ldapns/base-dn string  dc=clemson,dc=cloudlab,dc=us
+echo "
+ldap_auth_config        ldap_auth_config/bindpw password abcd123
+ldap_auth_config        ldap_auth_config/rootbindpw password abcd123
 ldap-auth-config        ldap-auth-config/dbrootlogin    boolean true
-ldap-auth-config        ldap-auth-config/ldapns/ldap_version    select  3
-ldap-auth-config        ldap-auth-config/rootbinddn     string  cn=admin,dc=clemson,dc=cloudlab,dc=us
-ldap-auth-config        ldap-auth-config/ldapns/ldap-server     string  ldap://192.168.1.1
+ldap-auth-config        ldap-auth-config/pam_password   select  md5
 ldap-auth-config        ldap-auth-config/move-to-debconf        boolean true
-" | sudo debconf-set-selections
+ldap_auth_config        ldap_auth_config/ldapns/base-dn string  dc=clemson,dc=cloudlab,dc=us
+ldap_auth_config        ldap_auth_config/rootbinddn     string  cn=admin,dc=clemson,dc=cloudlab,dc=us
+ldap_auth_config        ldap_auth_config/ldapns/ldap-server     string  ldap://192.168.1.1
+ldap_auth_config        ldap_auth_config/ldapns/ldap_version    select  3
+ldap_auth_config        ldap_auth_config/dblogin        boolean false
+ldap_auth_config        ldap_auth_config/override       boolean true " | sudo debconf-get-selections
 
+#installs libnss-ldap libpam-ldap ldap-utils along with all their dependencies
+sudo apt install -y -q libnss-ldap -y libpam-ldap ldap-utils
 
-#sudo apt-get update
-sudo apt install -y -q libnss-ldapd -y libpam-ldap ldap-utils
+#changes to ldap.conf, ldap.secret, nsswitch.conf, common-session, common-password
 
-# Provide hostname of node in the ldap.conf file
-sudo sed -i 's|ldapi:///|ldap://192.168.1.1|g' /etc/ldap.conf
-#chmod 777 /etc/ldap.conf
+sudo sed -i 's/uri ldapi:\/\/\//uri ldap:\/\/192.168.1.1\//g' /etc/ldap.conf
+sudo sed -i 's/base dc=example,dc=net/base dc=clemson,dc=cloudlab,dc=us/g' /etc/ldap.conf
+sudo sed -i 's/rootbinddn cn=manager,dc=example,dc=net/rootbinddn cn=admin,dc=clemson,dc=cloudlab,dc=us/g' /etc/ldap.conf
+sudo sed -i '/passwd:/ s/$/ ldap/' /etc/nsswitch.conf
+sudo sed -i '/group:/ s/$/ ldap/' /etc/nsswitch.conf
+sudo sed -i '/# end of pam-auth-update config/ i session optional pam_mkhomedir.so  skel=/etc/skel  umsak=077' /etc/pam.d/common-session
+sudo sed -i 's/use_authtok//g' /etc/pam.d/common-password
+sudo bash <<EOF
+echo $ADMIN_PASSWORD > /etc/ldap.secret
+EOF
+sudo chmod 600 /etc/ldap.secret
 
-# Enable LDAP profile for NSS
-sudo sed -i 's/systemd/systemd ldap/g' /etc/nsswitch.conf
-#chmod 777 /etc/nsswitch.conf
-
-# Enable LDAP profile PAM
-sudo sed -i 's/\<use_authtok\>//g' /etc/pam.d/common-password
-#chmod 777 /etc/pam.d/common-password
-sudo sed -i '$ a session optional        pam_mkhomedir.so skel=/etc/skel umask=077' /etc/pam.d/common-session
-#chmod 777 /etc/pam.d/common-session
-
-# Authenticate student user on ldapclient
+#fetches and prints details for a particular user 
 getent passwd student
 
-# Login as student user
-sudo su - student
