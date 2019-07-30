@@ -8,7 +8,6 @@ ldap-auth-config        ldap-auth-config/rootbindpw     password abcd123
 ldap-auth-config        ldap-auth-config/bindpw password abcd123
 ldap-auth-config        ldap-auth-config/override       boolean true
 ldap-auth-config        ldap-auth-config/pam_password   select  md5
-ldap-auth-config        ldap-auth-config/binddn string  cn=proxyuser,dc=example,dc=net
 ldap-auth-config        ldap-auth-config/dblogin        boolean false
 ldap-auth-config        ldap-auth-config/ldapns/base-dn string  dc=clemson,dc=cloudlab,dc=us
 ldap-auth-config        ldap-auth-config/dbrootlogin    boolean true
@@ -20,7 +19,7 @@ ldap-auth-config        ldap-auth-config/move-to-debconf        boolean true
 
 
 #sudo apt-get update
-sudo apt install -y libnss-ldapd -y libpam-ldap ldap-utils
+sudo apt install -y -q libnss-ldapd -y libpam-ldap ldap-utils
 
 # Provide hostname of node in the ldap.conf file
 sudo sed -i 's|ldapi:///|ldap://192.168.1.1|g' /etc/ldap.conf
