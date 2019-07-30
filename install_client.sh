@@ -1,5 +1,8 @@
 #! /bin/bash
 
+sudo apt update
+export DEBIAN_FRONTEND=noninteractive
+
 echo -e " 
 ldap-auth-config        ldap-auth-config/rootbindpw     password abcd123
 ldap-auth-config        ldap-auth-config/bindpw password abcd123
