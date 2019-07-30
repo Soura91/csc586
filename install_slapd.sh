@@ -31,7 +31,7 @@ slapd slapd/allow_ldap_v2 boolean false
 " | sudo debconf-set-selections
 
 sudo apt-get install -y slapd ldap-utils
-#sudo dpkg-reconfigure slapd
+sudo dpkg-reconfigure slapd
 sudo ufw allow ldap
 ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f basedn.ldif
 
