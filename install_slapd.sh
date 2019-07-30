@@ -1,35 +1,45 @@
-#!/bin/bash
+#! /bin/bash
 
-sudo apt-get update
-
+# Install openLDAP server quietly
 export DEBIAN_FRONTEND=noninteractive
 
 echo -e " 
-slapd slapd/internal/generated_adminpw password abcd123
-slapd slapd/no_configuration boolean false
-slapd slapd/invalid_config boolean true
-slapd slapd/domain string wisc.cloudlab.us
-slapd slapd/organization string clemson.cloudlab.us
-slapd slapd/internal/adminpw password abcd123
-slapd slapd/backend select MDB
-slapd slapd/purge_database boolean true
-slapd slapd/dump_databse_destdir string /var/backups/slapd-VERSION
-slapd slapd/dump_databse select when needed
-slapd slapd/move_old_database boolean true
-slapd slapd/password2 password abcd123
 slapd slapd/password1 password abcd123
-slapd slapd/password_mismatch note
-slapd slapd/policy_schema_needs_update select abort installation
+slapd slapd/internal/adminpw password abcd123
+slapd slapd/internal/generated_adminpw password abcd123
+slapd slapd/password2 password abcd123
+slapd slapd/root_password password abcd123
+slapd slapd/root_password_again password abcd123
 slapd slapd/unsafe_selfwrite_acl note
-slapd slapd/upgrade_slapcat_failure error
+slapd slapd/purge_database boolean false
+slapd slapd/domain string clemson.cloudlab.us
+slapd slapd/ppolicy_schema_needs_update select abort installation
+slapd slapd/invalid_config boolean true
+slapd slapd/move_old_database boolean false
+slapd slapd/backend select MDB
+slapd shared/organization string clemson.cloudlab.us
+slapd slapd/dump_database_destdir string /var/backups/slapd-VERSION
 slapd slapd/allow_ldap_v2 boolean false
+slapd slapd/no_configuration boolean false
+slapd slapd/dump_database select when needed
+slapd slapd/password_mismatch note
 " | sudo debconf-set-selections
 
-sudo apt-get install -y slapd ldap-utils
-sudo dpkg-reconfigure slapd
-sudo ufw allow ldap
-ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f basedn.ldif
+sudo apt-get update
 
+# Grab slapd and ldap-utils (pre-seeded)
+sudo apt-get install -y slapd ldap-utils
+
+# Must reconfigure slapd for it to work properly 
+sudo dpkg-reconfigure slapd
+
+# Enable firewall rule 
+sudo ufw allow ldap 
+
+# Populate LDAP
+ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w password -f basedn.ldif
+
+# Generate password hash
 PASS=$(slappasswd -s rammy)
 cat <<EOF >/local/repository/users.ldif
 dn: uid=student,ou=People,dc=clemson,dc=cloudlab,dc=us
@@ -49,4 +59,8 @@ loginShell: /bin/dash
 homeDirectory: /home/student
 EOF
 
-ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f users.ldif
+# Populate LDAP
+ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w password -f users.ldif 
+
+# Test LDAP
+ldapsearch -x -LLL -b dc=clemson,dc=cloudlab,dc=us 'uid=student' cn gidNumber
