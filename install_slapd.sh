@@ -25,12 +25,12 @@ slapd slapd/upgrade_slapcat_failure error
 slapd slapd/allow_ldap_v2 boolean false
 " | sudo debconf-set-selections
 
+sudo apt-get install -y slapd
 sudo apt-get install -y slapd ldap-utils
-#sudo dpkg-reconfigure slapd
+sudo dpkg-reconfigure slapd
 sudo ufw allow ldap
 ldapadd -x -D cn=admin,dc=clemson,dc=cloudlab,dc=us -w abcd123 -f basedn.ldif
 
-#echo   -n  PASS=$(slappasswd -s rammy) | awk '{print PASS}'
 PASS=$(slappasswd -s rammy)
 cat <<EOF >/local/repository/users.ldif
 dn: uid=student,ou=People,dc=clemson,dc=cloudlab,dc=us
