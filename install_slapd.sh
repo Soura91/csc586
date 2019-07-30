@@ -1,15 +1,10 @@
 #!/bin/bash
 
 sudo apt-get update
-#sudo apt-get install -y slapd
-sudo apt install -y debconf-utils
-sudo debconf-get-selections | grep slapd
 
 export DEBIAN_FRONTEND=noninteractive
 
 echo -e " 
-slapd slapd/root_password password abcd123
-slapd slapd/root_password_again password abcd123
 slapd slapd/internal/generated_adminpw password abcd123
 slapd slapd/no_configuration boolean false
 slapd slapd/invalid_config boolean true
