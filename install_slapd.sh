@@ -25,7 +25,6 @@ slapd slapd/upgrade_slapcat_failure error
 slapd slapd/allow_ldap_v2 boolean false
 " | sudo debconf-set-selections
 
-sudo apt-get install -y slapd
 sudo apt-get install -y slapd ldap-utils
 sudo dpkg-reconfigure slapd
 sudo ufw allow ldap
