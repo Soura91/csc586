@@ -15,7 +15,6 @@ slapd slapd/backend select MDB
 slapd slapd/purge_database boolean true
 slapd slapd/dump_databse_destdir string /var/backups/slapd-VERSION
 slapd slapd/dump_databse select when needed
-slapd slapd/move_old_database boolean true
 slapd slapd/password2 password abcd123
 slapd slapd/password1 password abcd123
 slapd slapd/password_mismatch note
