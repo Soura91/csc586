@@ -2,30 +2,30 @@ dn: uid=merino,ou=People,dc=clemson,dc=cloudlab,dc=us
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
-uid: merino
-sn: Merino
+uid: mary
+sn: mary
 givenName: Golden
-cn: merino
-displayName: merino
+cn: mary
+displayName: mary
 uidNumber: 10001
 gidNumber: 5000
 userPassword: {SSHA}sVuPVl061H3KMLy2da9W1+AvSoRexTRN
-gecos: Golden Merino
+gecos: Golden mary
 loginShell: /bin/dash
-homeDirectory: /var/nfs/home/merino
+homeDirectory: /var/nfs/home/mary
 
 dn: uid=dorper,ou=People,dc=clemson,dc=cloudlab,dc=us
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
-uid: dorper
-sn: Dorper
+uid: don
+sn: don
 givenName: Golden
-cn: dorper
-displayName: dorper
+cn: don
+displayName: don
 uidNumber: 10002
 gidNumber: 5000
 userPassword: {SSHA}sVuPVl061H3KMLy2da9W1+AvSoRexTRN
-gecos: Golden Dorper
+gecos: Golden don
 loginShell: /bin/dash
-homeDirectory: /var/nfs/home/dorper
+homeDirectory: /var/nfs/home/don
