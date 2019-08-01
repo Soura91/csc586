@@ -31,9 +31,6 @@ slapd slapd/password_mismatch note
 # Grab slapd and ldap-utils (pre-seeded)
 sudo apt-get install -y slapd ldap-utils
 
-# Must reconfigure slapd for it to work properly 
-#sudo dpkg-reconfigure slapd
-
 # Enable firewall rule 
 sudo ufw allow ldap 
 
