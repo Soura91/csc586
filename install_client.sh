@@ -36,6 +36,3 @@ echo $PASSWORD_SET > /etc/ldap.secret
 EOF
 sudo chmod 600 /etc/ldap.secret
 
-#fetches and prints details for a particular user 
-getent passwd student
-
